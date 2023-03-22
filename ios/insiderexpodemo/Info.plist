@@ -28,6 +28,22 @@
           <string>com.nazamraha.insider-expo-demo</string>
         </array>
       </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>com.googleusercontent.apps.782481770716-nd6f2s95rjq2mr4gugf9rdmgtc8egpbc</string>
+        </array>
+      </dict>
+      <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleURLName</key>
+        <string>insider</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>insidershoprahauat</string>
+        </array>
+      </dict>
     </array>
     <key>CFBundleVersion</key>
     <string>1</string>

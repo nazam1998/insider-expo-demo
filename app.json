@@ -11,22 +11,23 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.nazamraha.insider-expo-demo"
+      "bundleIdentifier": "com.nazamraha.insider-expo-demo",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.nazamraha.insiderexpodemo"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    
     "plugins": [
       [
         "expo-build-properties",
@@ -36,7 +37,8 @@
             "useFrameworks": "static"
           }
         }
-      ]
+      ],
+      "./plugins/build/withUseInsider"
     ]
   }
 }

@@ -37,7 +37,15 @@ elsif podfile_properties.key?('ios.flipper') then
   end
 end
 
+# @generated begin insiderexpodemo2 - expo prebuild (DO NOT MODIFY) sync-623dabb7a8fd2ea262efefdf0d39a77f23a06f9c
+use_frameworks! :linkage => :static
+# @generated end insiderexpodemo2
 target 'insiderexpodemo' do
+# @generated begin insiderexpodemo1 - expo prebuild (DO NOT MODIFY) sync-a0f14caa91d9d787f9177136f7a47e2c5e616f38
+inherit! :search_paths
+          # Pods for InsiderDemo
+          pod 'InsiderMobile'
+# @generated end insiderexpodemo1
   use_expo_modules!
   config = use_native_modules!
 
@@ -87,3 +95,17 @@ target 'insiderexpodemo' do
     end
   end
 end
+
+    target 'InsiderNotificationContent' do
+    use_frameworks!
+    inherit! :search_paths
+    # Pods for InsiderNotificationContent
+    pod "InsiderMobileAdvancedNotification"
+    end
+    target 'InsiderNotificationService' do
+    use_frameworks!
+    inherit! :search_paths
+    # Pods for InsiderNotificationService
+    pod "InsiderMobileAdvancedNotification"
+    end
+        
