@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import 'expo-dev-client';
 import RNInsider from 'react-native-insider';
 // @ts-ignore
 import InsiderCallbackType from "react-native-insider/src/InsiderCallbackType";

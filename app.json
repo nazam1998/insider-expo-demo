@@ -27,6 +27,11 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "extra": {
+      "eas": {
+        "projectId": "e7051d47-2d05-48d2-966e-93ff082757b5"
+      }
+    },
     "plugins": [
       [
         "expo-build-properties",
