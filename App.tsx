@@ -1,5 +1,4 @@
 import { StatusBar } from 'expo-status-bar';
-// import 'expo-dev-client';
 import { StyleSheet, Text, View } from 'react-native';
 import RNInsider from 'react-native-insider';
 // @ts-ignore
@@ -35,13 +34,13 @@ export default function App() {
     },
   );
 
-  RNInsider.setActiveForegroundPushView();
-  RNInsider.registerWithQuietPermission(true);
-  RNInsider.startTrackingGeofence();
-  RNInsider.enableIDFACollection(true);
-  RNInsider.enableIpCollection(true);
-  RNInsider.enableLocationCollection(true);
-  RNInsider.enableCarrierCollection(true);
+  RNInsider?.setActiveForegroundPushView();
+  RNInsider?.registerWithQuietPermission(true);
+  RNInsider?.startTrackingGeofence();
+  RNInsider?.enableIDFACollection(true);
+  RNInsider?.enableIpCollection(true);
+  RNInsider?.enableLocationCollection(true);
+  RNInsider?.enableCarrierCollection(true);
   })
   return (
     <View style={styles.container}>
