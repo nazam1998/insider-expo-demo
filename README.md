@@ -1,6 +1,6 @@
-Reproduction repository for React Native useInsider issue
+# Reproduction repository for React Native useInsider issue
 
-Steps to reproduce:
+## Steps to reproduce:
 
 - Clone this repository
 - run `yarn` to install dependencies
