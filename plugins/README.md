@@ -1,4 +1,4 @@
-# Shop raha expo plugins
+# Expo plugins
 
 This folder contains custom plugins to add native code to our managed expo app.
 
