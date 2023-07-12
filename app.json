@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "insider-expo-demo",
-    "slug": "insider-expo-demo",
+    "name": "expo-notification-demo",
+    "slug": "expo-notification-demo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,7 +14,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.nazamraha.insider-expo-demo",
+      "bundleIdentifier": "com.nazamraha.expo-notification-demo",
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.nazamraha.insiderexpodemo"
+      "package": "com.nazamraha.exponotificationdemo"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -37,7 +37,7 @@
           }
         }
       ],
-      "./plugins/build/withUseInsider"
+      "./plugins/build/withAddNotification"
     ]
   }
 }
