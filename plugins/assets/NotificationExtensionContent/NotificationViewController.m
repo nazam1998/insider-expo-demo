@@ -1,72 +1,29 @@
+//
+//  NotificationViewController.m
+//  NotificationExtensionContent
+//
+//  Created by Nazam on 12/07/2023.
+//
+
 #import "NotificationViewController.h"
-#import <InsiderMobileAdvancedNotification/InsiderPushNotification.h>
-#import <InsiderMobileAdvancedNotification/iCarousel.h>
+#import <UserNotifications/UserNotifications.h>
 #import <UserNotificationsUI/UserNotificationsUI.h>
 
-@interface NotificationViewController () <
-    UNNotificationContentExtension, iCarouselDelegate, iCarouselDataSource>
-@property(nonatomic, weak) IBOutlet iCarousel *carousel;
-@end
+@interface NotificationViewController () <UNNotificationContentExtension>
 
-static NSString *APP_GROUP = @"group.shopraha.mobilesdk";
+@property IBOutlet UILabel *label;
+
+@end
 
 @implementation NotificationViewController
 
-@synthesize carousel;
-
 - (void)viewDidLoad {
-  [super viewDidLoad];
+    [super viewDidLoad];
+    // Do any required interface initialization here.
 }
 
 - (void)didReceiveNotification:(UNNotification *)notification {
-  [InsiderPushNotification interactivePushLoad:APP_GROUP
-                                     superView:self.view
-                                  notification:notification];
-
-  carousel.type = iCarouselTypeRotary;
-  [carousel reloadData];
-
-  [InsiderPushNotification interactivePushDidReceiveNotification];
-}
-
-- (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
-  return [InsiderPushNotification getNumberOfSlide];
-}
-
-- (UIView *)carousel:(iCarousel *)carousel
-    viewForItemAtIndex:(NSInteger)index
-           reusingView:(UIView *)view {
-  return [InsiderPushNotification getSlide:index
-                               reusingView:view
-                                 superView:self.view];
-}
-
-- (void)dealloc {
-  carousel.delegate = nil;
-  carousel.dataSource = nil;
-}
-
-- (CGFloat)carouselItemWidth:(iCarousel *)carousel {
-  return [InsiderPushNotification getItemWidth];
-}
-
-- (void)didReceiveNotificationResponse:(UNNotificationResponse *)response
-                     completionHandler:
-                         (void (^)(UNNotificationContentExtensionResponseOption
-                                       option))completion {
-  if ([response.actionIdentifier isEqualToString:@"insider_int_push_next"]) {
-    [carousel scrollToItemAtIndex:[InsiderPushNotification
-                                      didReceiveNotificationResponse:
-                                          [carousel currentItemIndex]]
-                         animated:true];
-
-    completion(UNNotificationContentExtensionResponseOptionDoNotDismiss);
-  } else {
-    [InsiderPushNotification logPlaceholderClick:response];
-
-    completion(
-        UNNotificationContentExtensionResponseOptionDismissAndForwardAction);
-  }
+    self.label.text = notification.request.content.body;
 }
 
 @end

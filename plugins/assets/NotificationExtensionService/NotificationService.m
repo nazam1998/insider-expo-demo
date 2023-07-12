@@ -1,45 +1,35 @@
+//
+//  NotificationService.m
+//  NotificationExtensionService
+//
+//  Created by Nazam on 12/07/2023.
+//
+
 #import "NotificationService.h"
-#import <InsiderMobileAdvancedNotification/InsiderPushNotification.h>
 
 @interface NotificationService ()
 
-@property(nonatomic, strong) void (^contentHandler)
-    (UNNotificationContent *contentToDeliver);
-@property(nonatomic, strong) UNMutableNotificationContent *bestAttemptContent;
+@property (nonatomic, strong) void (^contentHandler)(UNNotificationContent *contentToDeliver);
+@property (nonatomic, strong) UNMutableNotificationContent *bestAttemptContent;
 
 @end
 
-static NSString *APP_GROUP = @"group.shopraha.mobilesdk";
-
 @implementation NotificationService
 
-- (void)didReceiveNotificationRequest:(UNNotificationRequest *)request
-                   withContentHandler:
-                       (void (^)(UNNotificationContent *_Nonnull))
-                           contentHandler {
-  self.contentHandler = contentHandler;
-  self.bestAttemptContent = [request.content mutableCopy];
-  // MARK: You can customize these.
-  NSString *nextButtonText = @">>";
-  NSString *goToAppText = @"Launch App";
-
-  [InsiderPushNotification
-      showInsiderRichPush:request
-                 appGroup:APP_GROUP
-           nextButtonText:nextButtonText
-              goToAppText:goToAppText
-                  success:^(UNNotificationAttachment *attachment) {
-                    if (attachment) {
-                      self.bestAttemptContent.attachments =
-                          [NSArray arrayWithObject:attachment];
-                    }
-
-                    self.contentHandler(self.bestAttemptContent);
-                  }];
+- (void)didReceiveNotificationRequest:(UNNotificationRequest *)request withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler {
+    self.contentHandler = contentHandler;
+    self.bestAttemptContent = [request.content mutableCopy];
+    
+    // Modify the notification content here...
+    self.bestAttemptContent.title = [NSString stringWithFormat:@"%@ [modified]", self.bestAttemptContent.title];
+    
+    self.contentHandler(self.bestAttemptContent);
 }
 
 - (void)serviceExtensionTimeWillExpire {
-  self.contentHandler(self.bestAttemptContent);
+    // Called just before the extension will be terminated by the system.
+    // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
+    self.contentHandler(self.bestAttemptContent);
 }
 
 @end

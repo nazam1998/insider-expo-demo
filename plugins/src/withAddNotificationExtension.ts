@@ -231,6 +231,47 @@ export const withAddNotificationExtension: ConfigPlugin<{
     },
   ]);
 
+  config = withDangerousMod(config, [
+    "ios",
+    async (config) => {
+      const pathPodfile = config.modRequest.platformProjectRoot + "/podfile";
+      const appTitle = config.modRequest.projectName;
+      const podfile = fs.readFileSync(pathPodfile, "utf8");
+
+      let resp = mergeContents({
+        tag: `ExpoDemo1`,
+        src: podfile,
+        newSrc: `inherit! :search_paths
+          `,
+        anchor: /use_expo_modules!/,
+        offset: 0,
+        comment: "#",
+      }).contents;
+
+      resp += `
+      target 'NotificationExtensionContent' do
+      use_frameworks!
+      inherit! :search_paths
+      end
+      target 'NotificationExtensionService' do
+      use_frameworks!
+      inherit! :search_paths
+      end`;
+
+      const newContent = mergeContents({
+        tag: `ExpoDemo2`,
+        src: resp,
+        newSrc: `use_frameworks! :linkage => :static`,
+        anchor: `target '${appTitle}' do`,
+        offset: 0,
+        comment: "#",
+      }).contents;
+
+      fs.writeFileSync(pathPodfile, newContent);
+
+      return config;
+    },
+  ]);
   
   return config;
 };

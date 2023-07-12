@@ -40,12 +40,6 @@
         }
       ],
       "./plugins/build/withAddNotification"
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "a3164fc4-c04a-4820-a040-41f8ae38a826",
-        
-      }
-    }
+    ]
   }
 }

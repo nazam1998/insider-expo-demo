@@ -1,8 +1,8 @@
 //
 //  NotificationService.h
-//  InsiderNotificationService
+//  NotificationExtensionService
 //
-//  Created by Insider on 6.04.2020.
+//  Created by Nazam on 12/07/2023.
 //
 
 #import <UserNotifications/UserNotifications.h>
