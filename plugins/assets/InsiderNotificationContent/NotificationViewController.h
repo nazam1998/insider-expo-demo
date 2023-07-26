@@ -1,8 +1,8 @@
 //
 //  NotificationViewController.h
-//  NotificationExtensionContent
+//  InsiderNotificationContent
 //
-//  Created by Nazam on 12/07/2023.
+//  Created by Insider on 6.04.2020.
 //
 
 #import <UIKit/UIKit.h>
