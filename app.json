@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.nazamraha.insider-expo-demo",
@@ -40,6 +38,37 @@
         }
       ],
       "./plugins/build/withAddNotification"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a3164fc4-c04a-4820-a040-41f8ae38a826",
+        "build": {
+          "experimental": {
+            "ios": {
+              "appExtensions": [
+                {
+                  "targetName": "InsiderNotificationService",
+                  "bundleIdentifier": "com.nazamraha.insider-expo-demo.InsiderNotificationService",
+                  "entitlements": {
+                    "com.apple.security.application-groups": [
+                      "group.shopraha.mobilesdk"
+                    ]
+                  }
+                },
+                {
+                  "targetName": "InsiderNotificationContent",
+                  "bundleIdentifier": "com.nazamraha.insider-expo-demo.InsiderNotificationContent",
+                  "entitlements": {
+                    "com.apple.security.application-groups": [
+                      "group.shopraha.mobilesdk"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
   }
 }
