@@ -1,12 +1,12 @@
 import { ConfigPlugin, createRunOncePlugin } from "@expo/config-plugins";
 import { withAddNotificationExtension } from "./withAddNotificationExtension";
 
-const appName = "expo-notification-demo";
+const partnerName = "insidershoprahauat";
 
 const pkg = require("../../package.json");
 
 const withAddNotification: ConfigPlugin = (config) => {
-  config = withAddNotificationExtension(config, {appName});
+  config = withAddNotificationExtension(config, {partnerName});
   return config;
 };
 

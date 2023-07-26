@@ -10,7 +10,7 @@ import fs from "fs";
 const IPHONEOS_DEPLOYMENT_TARGET = "13.0";
 const TARGETED_DEVICE_FAMILY = `"1,2"`;
 
-const NSE_TARGET_NAME = "NotificationExtensionService";
+const NSE_TARGET_NAME = "InsiderNotificationService";
 const NSE_SOURCE_FILE = "NotificationService.m";
 const NSE_EXT_FILES = [
   "NotificationService.h",
@@ -18,7 +18,7 @@ const NSE_EXT_FILES = [
   `${NSE_TARGET_NAME}-Info.plist`,
 ];
 
-const NCE_TARGET_NAME = "NotificationExtensionContent";
+const NCE_TARGET_NAME = "InsiderNotificationContent";
 const NCE_SOURCE_FILE = "NotificationViewController.m";
 const NCE_EXT_FILES = [
   "NotificationViewController.h",
@@ -27,8 +27,8 @@ const NCE_EXT_FILES = [
 ];
 
 export const withAddNotificationExtension: ConfigPlugin<{
-  appName: string;
-}> = (config, {appName}) => {
+  partnerName: string;
+}> = (config, {partnerName}) => {
   config = withXcodeProject(config, (newConfig) => {
     const xcodeProject = newConfig.modResults;
 
@@ -154,7 +154,7 @@ export const withAddNotificationExtension: ConfigPlugin<{
       const projectRootAsset =
         config.modRequest.projectRoot + "/plugins/assets";
       const notificationServiceFolder =
-        config.modRequest.platformProjectRoot + "/NotificationExtensionService";
+        config.modRequest.platformProjectRoot + "/InsiderNotificationService";
 
       await fs.promises.mkdir(notificationServiceFolder);
 
@@ -165,17 +165,17 @@ export const withAddNotificationExtension: ConfigPlugin<{
 
       await fs.promises.copyFile(
         projectRootAsset +
-          "/NotificationExtensionService/NotificationExtensionService.entitlements",
-        notificationServiceFolder + "/NotificationExtensionService.entitlements",
+          "/InsiderNotificationService/InsiderNotificationService.entitlements",
+        notificationServiceFolder + "/InsiderNotificationService.entitlements",
       );
 
       await fs.promises.copyFile(
-        projectRootAsset + "/NotificationExtensionService/NotificationService.h",
+        projectRootAsset + "/InsiderNotificationService/NotificationService.h",
         notificationServiceFolder + "/NotificationService.h",
       );
 
       await fs.promises.copyFile(
-        projectRootAsset + "/NotificationExtensionService/NotificationService.m",
+        projectRootAsset + "/InsiderNotificationService/NotificationService.m",
         notificationServiceFolder + "/NotificationService.m",
       );
 
@@ -189,31 +189,31 @@ export const withAddNotificationExtension: ConfigPlugin<{
       const projectRootAsset =
         config.modRequest.projectRoot + "/plugins/assets";
       const notificationContentFolder =
-        config.modRequest.platformProjectRoot + "/NotificationExtensionContent";
+        config.modRequest.platformProjectRoot + "/InsiderNotificationContent";
 
       await fs.promises.mkdir(notificationContentFolder);
 
       await fs.promises.copyFile(
         projectRootAsset +
-          "/NotificationExtensionContent/NotificationExtensionContent-Info.plist",
+          "/InsiderNotificationContent/InsiderNotificationContent-Info.plist",
         notificationContentFolder + `/${NCE_TARGET_NAME}-Info.plist`,
       );
 
       await fs.promises.copyFile(
         projectRootAsset +
-          "/NotificationExtensionContent/NotificationExtensionContent.entitlements",
-        notificationContentFolder + "/NotificationExtensionContent.entitlements",
+          "/InsiderNotificationContent/InsiderNotificationContent.entitlements",
+        notificationContentFolder + "/InsiderNotificationContent.entitlements",
       );
 
       await fs.promises.copyFile(
         projectRootAsset +
-          "/NotificationExtensionContent/NotificationViewController.h",
+          "/InsiderNotificationContent/NotificationViewController.h",
         notificationContentFolder + "/NotificationViewController.h",
       );
 
       await fs.promises.copyFile(
         projectRootAsset +
-          "/NotificationExtensionContent/NotificationViewController.m",
+          "/InsiderNotificationContent/NotificationViewController.m",
         notificationContentFolder + "/NotificationViewController.m",
       );
 
@@ -223,13 +223,25 @@ export const withAddNotificationExtension: ConfigPlugin<{
 
       await fs.promises.copyFile(
         projectRootAsset +
-          "/NotificationExtensionContent/MainInterface.storyboard",
+          "/InsiderNotificationContent/MainInterface.storyboard",
         notificationContentFolder + "/Base.lproj/MainInterface.storyboard",
       );
 
       return config;
     },
   ]);
+
+  config = withInfoPlist(config, async (config) => {
+    const file = config.modResults;
+
+    file.CFBundleURLTypes?.push({
+      // @ts-ignore
+      CFBundleTypeRole: "Editor",
+      CFBundleURLName: "insider",
+      CFBundleURLSchemes: [`insider${partnerName}`],
+    });
+    return config;
+  });
 
   config = withDangerousMod(config, [
     "ios",
@@ -239,27 +251,32 @@ export const withAddNotificationExtension: ConfigPlugin<{
       const podfile = fs.readFileSync(pathPodfile, "utf8");
 
       let resp = mergeContents({
-        tag: `ExpoDemo1`,
+        tag: `INSIDER1`,
         src: podfile,
         newSrc: `inherit! :search_paths
-          `,
+          # Pods for InsiderDemo
+          pod 'InsiderMobile'`,
         anchor: /use_expo_modules!/,
         offset: 0,
         comment: "#",
       }).contents;
 
       resp += `
-      target 'NotificationExtensionContent' do
+      target 'InsiderNotificationContent' do
       use_frameworks!
       inherit! :search_paths
+      # Pods for InsiderNotificationContent
+      pod "InsiderMobileAdvancedNotification"
       end
-      target 'NotificationExtensionService' do
+      target 'InsiderNotificationService' do
       use_frameworks!
       inherit! :search_paths
+      # Pods for InsiderNotificationService
+      pod "InsiderMobileAdvancedNotification"
       end`;
 
       const newContent = mergeContents({
-        tag: `ExpoDemo2`,
+        tag: `INSIDER2`,
         src: resp,
         newSrc: `use_frameworks! :linkage => :static`,
         anchor: `target '${appTitle}' do`,
@@ -272,6 +289,5 @@ export const withAddNotificationExtension: ConfigPlugin<{
       return config;
     },
   ]);
-  
   return config;
 };
