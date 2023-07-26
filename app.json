@@ -12,6 +12,7 @@
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": ["**/*"],
+    "scheme":"insidershoprahauat",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.nazamraha.insider-expo-demo",
